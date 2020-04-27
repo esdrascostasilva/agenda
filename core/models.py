@@ -1,3 +1,20 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+
+# class representations database
+class Evento(models.Model):
+    titulo = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True, null=True)
+    data_evento = models.DateTimeField(verbose_name='Data do evento')
+    data_criacao = models.DateTimeField(auto_now=True)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    #por padrão, o django dá um nome a sua tabela. Vc pode alterar isso coforme abaixo
+    class Meta:
+        db_table = 'evento'
+
+    # no banco, ao criar um evento ele traz com o nome Object. O cód abaixo retorna o nome do evento criado
+    def __str__(self):
+        return self.titulo
